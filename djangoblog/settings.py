@@ -12,6 +12,9 @@ https://docs.djangoproject.com/en/1.10/ref/settings/
 import os
 import sys
 
+from dotenv import load_dotenv
+load_dotenv()
+
 from django.utils.translation import gettext_lazy as _
 
 
@@ -123,7 +126,7 @@ DATABASES = {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'djangoblog',
         'USER': 'root',
-        'PASSWORD': '123456',
+        'PASSWORD': os.getenv('DATABASE_PASSWORD'),
         'HOST': 'localhost',
         'PORT': 3306,
     }
