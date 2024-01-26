@@ -19,12 +19,7 @@ from blog.models import Article, Category, LinkShowType, Links, Tag
 from comments.forms import CommentForm
 from djangoblog.utils import cache, get_blog_setting, get_sha256
 
-#render a blank page
-from django.shortcuts import render
 
-
-def about(request):
-    return render(request, 'blog/about.html')
 logger = logging.getLogger(__name__)
 
 
@@ -130,7 +125,8 @@ class ArticleDetailView(DetailView):
         article_comments = self.object.comment_list()
         parent_comments = article_comments.filter(parent_comment=None)
         blog_setting = get_blog_setting()
-        paginator = Paginator(parent_comments, blog_setting.article_comment_count)
+        paginator = Paginator(
+            parent_comments, blog_setting.article_comment_count)
         page = self.request.GET.get('comment_page', '1')
         if not page.isnumeric():
             page = 1
@@ -321,10 +317,12 @@ def fileupload(request):
             imgextensions = ['jpg', 'png', 'jpeg', 'bmp']
             fname = u''.join(str(filename))
             isimage = len([i for i in imgextensions if fname.find(i) >= 0]) > 0
-            base_dir = os.path.join(settings.STATICFILES, "files" if not isimage else "image", timestr)
+            base_dir = os.path.join(
+                settings.STATICFILES, "files" if not isimage else "image", timestr)
             if not os.path.exists(base_dir):
                 os.makedirs(base_dir)
-            savepath = os.path.normpath(os.path.join(base_dir, f"{uuid.uuid4().hex}{os.path.splitext(filename)[-1]}"))
+            savepath = os.path.normpath(os.path.join(
+                base_dir, f"{uuid.uuid4().hex}{os.path.splitext(filename)[-1]}"))
             if not savepath.startswith(base_dir):
                 return HttpResponse("only for post")
             with open(savepath, 'wb+') as wfile:
@@ -379,3 +377,7 @@ def permission_denied_view(
 def clean_cache_view(request):
     cache.clear()
     return HttpResponse('ok')
+
+
+def about(request):
+    return render(request, 'share_layout/about.html')
