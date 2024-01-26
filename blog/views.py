@@ -19,6 +19,12 @@ from blog.models import Article, Category, LinkShowType, Links, Tag
 from comments.forms import CommentForm
 from djangoblog.utils import cache, get_blog_setting, get_sha256
 
+#render a blank page
+from django.shortcuts import render
+
+
+def about(request):
+    return render(request, 'blog/about.html')
 logger = logging.getLogger(__name__)
 
 

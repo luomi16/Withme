@@ -1,5 +1,6 @@
 from django.urls import path
 from django.views.decorators.cache import cache_page
+from .views import about
 
 from . import views
 
@@ -59,4 +60,6 @@ urlpatterns = [
         r'clean',
         views.clean_cache_view,
         name='clean'),
+    path('about/', about, name='about')
+    
 ]
